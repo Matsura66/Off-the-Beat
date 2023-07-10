@@ -20,8 +20,8 @@ void* CarregarImagem(const char* Sprite, int x, int y, int altura, int largura)
 int main()
 {
 
-    unsigned long contaTick; // começa contagem de fps
-    unsigned long iniciaTick;
+    unsigned long contaTick; // Conta os Ticks da placa mÃ£e
+    unsigned long iniciaTick; // Sincroniza os ticks do jogo
 
     iniciaTick = GetTickCount();
 
@@ -37,22 +37,22 @@ int main()
     int y = 600; // cordenada y do personagem
     int lane = 2; // lane inicial
 
-    int enemy1x = 50; // posição X dos inimigos na lane 1
-    int enemy1y = -60; // posição Y dos inimigos na lane 1
+    int enemy1x = 50; // posiÃ§Ã£o X dos inimigos na lane 1
+    int enemy1y = -60; // posiÃ§Ã£o Y dos inimigos na lane 1
 
-    int enemy2x = 200; // posição X dos inimigos da lane 2
-    int enemy2y = -200; // posição Y dos inimigos da lane 2
+    int enemy2x = 200; // posiÃ§Ã£o X dos inimigos da lane 2
+    int enemy2y = -200; // posiÃ§Ã£o Y dos inimigos da lane 2
 
-    int enemy3x = 350; // posição X dos inimigos da lane 3
-    int enemy3y = -190; // posição Y dos inimigos da lane 3
+    int enemy3x = 350; // posiÃ§Ã£o X dos inimigos da lane 3
+    int enemy3y = -190; // posiÃ§Ã£o Y dos inimigos da lane 3
 
     int pg = 1;
     mciSendString("open .\\sons\\Menu.mp3 type MPEGVideo alias Menu", NULL, 0, 0); // Carrega musica do menu
 	
     while (true) {
 
-        contaTick = GetTickCount(); // começa a contagem de ticks
-        if (iniciaTick - contaTick > 1000 / 60) {
+        contaTick = GetTickCount(); // comeÃ§a a contagem de ticks
+        if (iniciaTick - contaTick > 1000 / 60) //Contagem total de ticks da placa mÃ£e 
             putimage(0, 0, imagem, COPY_PUT); // Desenha background
             putimage(150, 350, botaoM, AND_PUT); // MASCARA2
             putimage(150, 350, botao2, OR_PUT); // SAIR.BMP
@@ -65,13 +65,13 @@ int main()
 
             // Input de usuario
             while (1) {
-                int x, y, botao;
+                int x, y;
                 if (ismouseclick(WM_LBUTTONDOWN)) {
 
                     getmouseclick(WM_LBUTTONDOWN, x, y);
                     if (x >= 150 && x <= 250 && y >= 250 && y <= 350) {
 
-                        // Começa o jogo
+                        // ComeÃ§a o jogo
                         mciSendString("stop Menu", NULL, 0, 0); // Para a musica de menu
                         mciSendString("open .\\sons\\Jogo.mp3 type MPEGVideo alias Jogo", NULL, 0, 0); // carrega a musica do jogo
                         mciSendString("seek Jogo to start", NULL, 0, 0); // busca arquivo
@@ -116,7 +116,7 @@ int main()
         while (gameRunning) {
 
 
-			/////////////Paginação/////////////////
+			/////////////PaginaÃ§Ã£o/////////////////
 
             if (pg == 1)
                 pg = 2;
@@ -127,29 +127,29 @@ int main()
 
             //////////////////////// Enemy ////////////////////////////////////////////////////
 			
-            putimage(enemy1x - 10, enemy1y - 10, enemyMascara, AND_PUT); // Limpa posição anterior
+            putimage(enemy1x - 10, enemy1y - 10, enemyMascara, AND_PUT); // Limpa posiÃ§Ã£o anterior
             putimage(enemy1x - 10, enemy1y - 10, enemyImage, OR_PUT);
-            enemy1y += 15; // atualiza nova posição
+            enemy1y += 15; // atualiza nova posiÃ§Ã£o
             
         
-            putimage(enemy2x - 10, enemy2y - 10, enemyMascara, AND_PUT); // Limpa posição anterior
+            putimage(enemy2x - 10, enemy2y - 10, enemyMascara, AND_PUT); // Limpa posiÃ§Ã£o anterior
             putimage(enemy2x - 10, enemy2y - 10, enemyImage, OR_PUT);
-            enemy2y += 20; // atualiza nova posição
+            enemy2y += 20; // atualiza nova posiÃ§Ã£o
 
 
-            putimage(enemy3x - 10, enemy3y - 10, enemyMascara, AND_PUT); // Limpa posição anterior
+            putimage(enemy3x - 10, enemy3y - 10, enemyMascara, AND_PUT); // Limpa posiÃ§Ã£o anterior
             putimage(enemy3x - 10, enemy3y - 10, enemyImage, OR_PUT);
-            enemy3y += 10; // atualiza nova posição
+            enemy3y += 10; // atualiza nova posiÃ§Ã£o
 			
             
             if (enemy1y >= getmaxy())  // Verificar se o primeiro objeto atingiu a parte inferior da tela
-        	enemy1y = -130;  // Reiniciar a posição do primeiro objeto para a parte superior da tela
+        	enemy1y = -130;  // Reiniciar a posiÃ§Ã£o do primeiro objeto para a parte superior da tela
 
     		if (enemy2y >= getmaxy())  // Verificar se o segundo objeto atingiu a parte inferior da tela
-        	enemy2y = -150;  // Reiniciar a posição do segundo objeto para a parte superior da tela
+        	enemy2y = -150;  // Reiniciar a posiÃ§Ã£o do segundo objeto para a parte superior da tela
          
     		if (enemy3y >= getmaxy())  // Verificar se o terceiro objeto atingiu a parte inferior da tela
-        	enemy3y = -70;  // Reiniciar a posição do terceiro objeto para a parte superior da tela
+        	enemy3y = -70;  // Reiniciar a posiÃ§Ã£o do terceiro objeto para a parte superior da tela
             
 
             /////////////////////// Main Character ////////////////////////////////////////
@@ -177,26 +177,26 @@ int main()
             }
             setvisualpage(pg); // Buffer Duplo
 
-            //////////////////////////////////Detecta colisão/////////////////////////////////////////////////////
+            //////////////////////////////////Detecta colisÃ£o/////////////////////////////////////////////////////
 
-            // Checa colisão
+            // Checa colisÃ£o
             if (x >= enemy1x - 10 && x <= enemy1x + 40 && y >= enemy1y - 10 && y <= enemy1y + 40) {
                 score++; // score de dano
-                enemy1y = -60; // Reseta posição inimiga
+                enemy1y = -60; // Reseta posiÃ§Ã£o inimiga
                 sndPlaySound(".\\sons\\Danomorte.wav", SND_ASYNC);
             }
 
-           // Checa colisão
+           // Checa colisÃ£o
             if (x >= enemy2x - 10 && x <= enemy2x + 40 && y >= enemy2y - 10 && y <= enemy2y + 40) {
                 score++; // score de dano
-                enemy2y = -200;// Reseta posição inimiga
+                enemy2y = -200;// Reseta posiÃ§Ã£o inimiga
                 sndPlaySound(".\\sons\\Danomorte.wav", SND_ASYNC);
             }
 
-            // Checa colisão
+            // Checa colisÃ£o
             if (x >= enemy3x - 10 && x <= enemy3x + 40 && y >= enemy3y - 10 && y <= enemy3y + 40) {
                 score++; // score de dano
-                enemy3y = -190; // Reseta posição inimiga
+                enemy3y = -190; // Reseta posiÃ§Ã£o inimiga
                 sndPlaySound(".\\sons\\Danomorte.wav", SND_ASYNC);
             }
 
